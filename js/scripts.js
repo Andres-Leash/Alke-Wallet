@@ -1,4 +1,6 @@
-// para login//
+//----------------------------------Enviar dinero--------------------------------
+
+// Programacion login.html
 
 const form = document.getElementById("loginUsuario");
 
@@ -18,12 +20,15 @@ if (form) {
     })
 }
 
+//----------------------------------Menu--------------------------------
 
-//para menu//
+// asignacion de constantes con manejo de DOM
 
 const buttonDeposit = document.getElementById('deposit')
 const buttonSendmoney = document.getElementById('sendmoney')
 const buttonTransactions = document.getElementById('transactions')
+
+//Programacion de botones depositar, enviar dinero y transacciones
 
 if (buttonDeposit) {
     buttonDeposit.addEventListener('click', () => {
@@ -48,7 +53,7 @@ if (buttonTransactions) {
     })
 }
 
-//para depositar//
+//Actualizacion de saldo menu con la variable saldo de localStorage o 0
 
 const saldoMenu = document.getElementById('saldo')
 
@@ -57,8 +62,9 @@ if (saldoMenu) {
     saldoMenu.innerText = saldo
 }
 
+//----------------------------------Depositar dinero--------------------------------
 
-
+//Programacion para realizar deposito, se crea la variable en localStorage 'saldo' si no esta creada, y se guardan las operaciones con funcion guardarOperacion
 document.addEventListener('DOMContentLoaded', () => {
     const formDeposito = document.getElementById('deposito')
     if (formDeposito) {
@@ -81,7 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-//para enviar dinero//
+//----------------------------------Enviar dinero--------------------------------
+
+// Añadir nuevo contacto en sendmoney.html
 
 const formNuevoContacto = document.getElementById('nuevoContacto')
 const tablaNuevoContacto = document.getElementById('contactos')
@@ -123,9 +131,8 @@ if (formNuevoContacto) {
     })
 }
 
-// para enviar dinero
+// Programacion select del formulario para enviar dinero en sendmoney.html
 
-//const tablaNuevoContacto = document.getElementById('contactos')
 const selectContacto = document.getElementById('selectContacto')
 const tablaContactos = document.getElementById('contactos')
 
@@ -169,11 +176,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-//Ver transacciones
+//-----------------------Ver transacciones--------------------------
+
+//Si no esta creado el JSON operaciones, con este se crea solo una vez al cargar la pagina
 
 if (!localStorage.getItem('operaciones')) {
     localStorage.setItem('operaciones', JSON.stringify([]));
 }
+
+//Funcion guardar operacion usados tanto en depositos y envio de dinero
 
 function guardarOperacion(nombre, tipo, monto) {
     const operaciones = JSON.parse(localStorage.getItem('operaciones')) || [];
@@ -187,6 +198,7 @@ function guardarOperacion(nombre, tipo, monto) {
     localStorage.setItem('operaciones', JSON.stringify(operaciones));
 };
 
+//Funcion para cargar la tabla de transacciones a partir de JSON creado, este se utiliza en depositos y envio de dinero
 function cargarTabla() {
     const tbody = document.getElementById('cuerpoTablaTransacciones');
     if (!tbody) return;
@@ -213,6 +225,8 @@ function cargarTabla() {
         tbody.appendChild(fila);
     });
 }
+
+//Carga la tabla al cargar el DOM de transacciones
 document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("cuerpoTablaTransacciones")) {
         cargarTabla();
