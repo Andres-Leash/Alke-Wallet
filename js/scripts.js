@@ -1,6 +1,4 @@
-//----------------------------------Enviar dinero--------------------------------
-
-// Programacion login.html
+//----------------------------------Login--------------------------------
 
 //Validador de inicio de sesion
 const form = document.getElementById("loginUsuario");
