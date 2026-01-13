@@ -2,23 +2,62 @@
 
 // Programacion login.html
 
+//Validador de inicio de sesion
 const form = document.getElementById("loginUsuario");
 
 if (form) {
     form.addEventListener('submit', e => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const email = document.getElementById('emailLogin').value;
         const password = document.getElementById('password').value;
+        const usuarioValido = usuarios.find(u => u.usuario === email && u.password === password);
 
-        if (email === 'correo@gmail.com' && password === '1234') {
+        if (usuarioValido) {
             alert('Bienvenido, redirigiendo a su menu');
             window.location.replace('menu.html');
         }
         else {
             alert('Credenciales incorrectas, por favor, intente nuevamente')
+            document.getElementById('emailLogin').value = '';
+            document.getElementById('password').value = '';
         }
     })
 }
+
+//Registro nuevo usuario
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (!localStorage.getItem('usuarios')) {
+        localStorage.setItem('usuarios', JSON.stringify([]));
+    }
+    const registroUsuario = document.getElementById('registroUsuario');
+
+    registroUsuario.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const usuario = document.getElementById('emailRegistro').value.trim().toLowerCase();
+        const password = document.getElementById('clave').value;
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const existe = usuarios.some(u => u.usuario === usuario);
+
+        if (existe) {
+            alert("El usuario ya está registrado");
+            return;
+        }
+        usuarios.push({ usuario, password });
+        localStorage.setItem('usuarios', JSON.stringify(usuarios))
+        alert("Usuario registrado con éxito");
+        //limpia el formulario
+        document.getElementById('emailRegistro').value = '';
+        document.getElementById('clave').value = '';
+        //oculta el modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('modalRegistro'));
+        modal.hide();
+    })
+}
+)
+
 
 //----------------------------------Menu--------------------------------
 

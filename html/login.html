@@ -16,7 +16,7 @@
                 <div class="col-12">
                     <nav class="navbar navbar-expand-lg bg-body-tertiary">
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="#">Mi Billetera Digital</a>
+                            <a class="navbar-brand" href="../html/login.html">Alke-Wallet</a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -40,16 +40,58 @@
                     <h2>Inicio de sesión</h2>
                 </div>
                 <form id="loginUsuario" class="col-12 mt-3">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electronico</label>
-                        <input type="email" class="form-control" id="email" placeholder="nombre@ejemplo.cl">
+                    <div class="row">
+                        <div class="mb-3 col-12 col-md-6">
+                            <label for="emailLogin" class="form-label">Correo Electronico</label>
+                            <input type="email" class="form-control" id="emailLogin" placeholder="nombre@ejemplo.cl" required>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 text-center">
+                            <button type="submit" class="btn btn-primary w-50">Iniciar Sesión</button>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6 text-center">
+                            <button type="button" class="btn btn-outline-secondary w-50" data-bs-toggle="modal"
+                                data-bs-target="#modalRegistro">Registrarse</button>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" placeholder="Contraseña">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </form>
+                <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="LabelContacto"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="LabelContacto">
+                                    <center>Formulario de registro</center>
+                                </h1>
+                            </div>
+                            <div class="modal-body">
+                                <form id="registroUsuario">
+                                    <div class="mb-3">
+                                        <label for="emailRegistro" class="col-form-label">Usuario:</label>
+                                        <input type="email" class="form-control" id="emailRegistro"
+                                            placeholder="nombre@ejemplo.cl" required>
+                                        <div class="invalid-feedback">
+                                            Coloque un correo electronico como usuario (nombre@ejemplo.cl)
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="clave" class="col-form-label">Contraseña:</label>
+                                        <input type="password" class="form-control" id="clave" placeholder="Contraseña"
+                                            required>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" form="registroUsuario" class="btn btn-primary" id="guardarUsuario">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -60,6 +102,7 @@
                     <p class="mt-4">&copy; 2025 Mi Billetera Digital. All rights reserved.</p>
                 </div>
             </div>
+        </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
