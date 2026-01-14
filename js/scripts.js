@@ -31,18 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const registroUsuario = document.getElementById('registroUsuario');
 
-    registroUsuario.addEventListener('submit', e => {
+    if(registroUsuario) {registroUsuario.addEventListener('submit', e => {
         e.preventDefault();
 
         const usuario = document.getElementById('emailRegistro').value.trim().toLowerCase();
         const password = document.getElementById('clave').value;
         const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
         const existe = usuarios.some(u => u.usuario === usuario);
-
-        if (existe) {
+        
+        //Validador de datos duplicados
+        if (existe) {   
             alert("El usuario ya está registrado");
             return;
         }
+        //Agregar datos de registro a localStorage como JSON
         usuarios.push({ usuario, password });
         localStorage.setItem('usuarios', JSON.stringify(usuarios))
         alert("Usuario registrado con éxito");
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = bootstrap.Modal.getInstance(document.getElementById('modalRegistro'));
         modal.hide();
     })
-}
+}}
 )
 
 
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('saldo', nuevoSaldo)
                 guardarOperacion('Mi deposito', 'deposito', amount)
                 cargarTabla();
-                alert('monto depositado, verifique en su menu')
+                alert(`Se ha depositado $${amount} a su saldo actual, su nuevo saldo es $${nuevoSaldo}, verifique en su menu`)
             }
             else {
                 alert('monto invalido')
