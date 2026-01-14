@@ -24,11 +24,13 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                  <a class="nav-link active" aria-current="page" href="login.html">Login</a>
                   <a class="nav-link" href="menu.html">Menu</a>
                   <a class="nav-link" href="deposit.html">Deposit</a>
-                  <a class="nav-link" href="sendmoney.html">Send Money</a>
+                  <a class="nav-link active" aria-current="page" href="sendmoney.html">Send Money</a>
                   <a class="nav-link" href="transactions.html">Transactions</a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                  <a class="nav-link" href="login.html" id='cerrarSesion'>Cerrar Sesion</a>
                 </div>
               </div>
             </div>
@@ -118,40 +120,21 @@
         <div class="col-12 mt-3">
           <h2>Contactos</h2>
         </div>
-        <div class="col-12 col-md-9 mt-3">
-          <label for="Contacto" class="form-label">Buscar en la agenda de transferencias</label>
-          <input type="text" class="form-control" id="Contacto" placeholder="Ingrese el contacto">
-        </div>
-        <div class="col-12 col-md-3 mt-3 d-flex align-items-end">
-          <button type="submit" class="btn btn-primary w-100">Buscar</button>
-        </div>
-        <div class="col-12 mt-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">CBU</th>
-                <th scope="col">Alias</th>
-                <th scope="col">Banco</th>
-              </tr>
-            </thead>
-            <tbody id="contactos">
-              <tr>
-                <td>Mayra Otto</td>
-                <td>14555293-2</td>
-                <td>Mayra</td>
-                <td>BBVA</td>
-              </tr>
-              <tr>
-                <td>Joaquin Aguilar</td>
-                <td>10912341-2</td>
-                <td>Joaquin</td>
-                <td>Banco Estado</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
+      <div class="col-12 mt-3">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">CBU</th>
+              <th scope="col">Alias</th>
+              <th scope="col">Banco</th>
+            </tr>
+          </thead>
+          <tbody id="contactos"></tbody>
+        </table>
+      </div>
+    </div>
     </div>
   </main>
   <footer>

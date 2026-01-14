@@ -12,7 +12,7 @@ if (form) {
         const usuarioValido = usuarios.find(u => u.usuario === email && u.password === password);
 
         if (usuarioValido) {
-            alert('Bienvenido, redirigiendo a su menu');
+            alert('Bienvenido, redirigiendo a su menú');
             window.location.replace('menu.html');
         }
         else {
@@ -71,7 +71,7 @@ const buttonTransactions = document.getElementById('transactions')
 
 if (buttonDeposit) {
     buttonDeposit.addEventListener('click', () => {
-        alert('redirigiendo a depositar')
+        alert('Redirigiendo a depositar')
         window.location.replace('deposit.html')
     })
 }
@@ -79,7 +79,7 @@ if (buttonDeposit) {
 if (buttonSendmoney) {
 
     buttonSendmoney.addEventListener('click', () => {
-        alert('redirigiendo a enviar dinero')
+        alert('Redirigiendo a enviar dinero')
         window.location.replace('sendmoney.html')
     })
 }
@@ -87,7 +87,7 @@ if (buttonSendmoney) {
 if (buttonTransactions) {
 
     buttonTransactions.addEventListener('click', () => {
-        alert('redirigiendo a transacciones')
+        alert('Redirigiendo a transacciones')
         window.location.replace('transactions.html')
     })
 }
@@ -116,10 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('saldo', nuevoSaldo)
                 guardarOperacion('Mi deposito', 'deposito', amount)
                 cargarTabla();
-                alert(`Se ha depositado $${amount} a su saldo actual, su nuevo saldo es $${nuevoSaldo}, verifique en su menu`)
+                alert(`Se ha depositado $${amount} a su saldo actual, su nuevo saldo es $${nuevoSaldo}, verifique en su menú`)
             }
             else {
-                alert('monto invalido')
+                alert('Monto invalido, intente nuevamente')
             }
         }
         )
@@ -130,62 +130,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Añadir nuevo contacto en sendmoney.html
 
-const formNuevoContacto = document.getElementById('nuevoContacto')
-const tablaNuevoContacto = document.getElementById('contactos')
 
+document.addEventListener('DOMContentLoaded', () => {
+    if (!localStorage.getItem('contactos')) {
+        localStorage.setItem('contactos', JSON.stringify([]));
+    }
+    const formNuevoContacto = document.getElementById('nuevoContacto')
+    const tablaNuevoContacto = document.getElementById('contactos')
 
-if (formNuevoContacto) {
-    formNuevoContacto.addEventListener('submit', e => {
-        e.preventDefault()
+    if (formNuevoContacto) {
+        formNuevoContacto.addEventListener('submit', e => {
+            e.preventDefault()
+            
+            //Definicion de variables con lo que se agrego en formulario nuevoContacto
+            const nombre = document.getElementById('nombre').value.trim()
+            const cbu = document.getElementById('cbu').value.trim().toUpperCase()
+            const alias = document.getElementById('alias').value
+            const banco = document.getElementById('banco').value
+            const contactos = JSON.parse(localStorage.getItem('contactos')) || [];
+            const cbuExiste = contactos.some(c => c.cbu === cbu);
+            const bancoExiste = contactos.some(c => c.banco === banco);
+            
 
-        const nombre = document.getElementById('nombre').value
-        const cbu = document.getElementById('cbu').value
-        const alias = document.getElementById('alias').value
-        const banco = document.getElementById('banco').value
+            //Verificar que no sea dato duplicado
+            if (cbuExiste && bancoExiste) {
+                alert ('Contacto existente, por favor ingrese un nuevo contacto válido')
+                return
+            }
 
+            //Agregar contacto a localStorage 'Contacto'
+                        contactos.push({ nombre, cbu, alias, banco })
+            localStorage.setItem('contactos', JSON.stringify(contactos));
+
+            //Finalizacion
+            alert('Contacto agregado con éxito')
+            formNuevoContacto.reset()
+            const modalEl = document.getElementById('modalNuevoContacto');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+            cargarContactos();
+            cargarSelectContactos();
+            
+        })
+    }
+})
+
+//Funcion para agregar a la tabla contactos lo que esta almacenado en localStorage
+
+function cargarContactos () {
+    const contactos = JSON.parse(localStorage.getItem('contactos')) || []
+    const tbody = document.getElementById('contactos')
+    tbody.innerHTML = ''
+    
+    contactos.forEach(contacto => {
         const tr = document.createElement('tr')
-        tr.id = `cbu-${cbu}`
-
-        const tdNombre = document.createElement('td')
-        tdNombre.textContent = nombre
-
-        const tdCbu = document.createElement('td')
-        tdCbu.textContent = cbu
-
-        const tdAlias = document.createElement('td')
-        tdAlias.textContent = alias
-
-        const tdBanco = document.createElement('td')
-        tdBanco.textContent = banco
-
-        tr.append(tdNombre, tdCbu, tdAlias, tdBanco)
-        tablaNuevoContacto.append(tr)
-
-        formNuevoContacto.reset()
-
-        const modalEl = document.getElementById('modalNuevoContacto');
-        const modal = bootstrap.Modal.getInstance(modalEl);
-        modal.hide();
-
+        tr.innerHTML =
+        `
+            <td>${contacto.nombre}</td>
+            <td>${contacto.cbu}</td>
+            <td>${contacto.alias}</td>
+            <td>${contacto.banco}</td>
+        `
+        tbody.appendChild(tr)
     })
 }
+//Luego de cargar el DOM, carga la tabla contactos
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.getElementById("contactos")) {
+        cargarContactos();
+    }
+});
 
 // Programacion select del formulario para enviar dinero en sendmoney.html
 
-const selectContacto = document.getElementById('selectContacto')
-const tablaContactos = document.getElementById('contactos')
+function cargarSelectContactos() {
+    const selectContacto = document.getElementById('selectContacto');
+    if (!selectContacto) return;
 
-if (selectContacto && tablaContactos) {
-    for (let i = 0; i < tablaContactos.rows.length; i++) {
-        const row = tablaContactos.rows[i]
-        const nombre = row.cells[0].textContent
-        const cbu = row.cells[1].textContent
-        const option = document.createElement('option')
-        option.value = cbu
-        option.textContent = nombre
-        selectContacto.appendChild(option)
-    }
+    const contactos = JSON.parse(localStorage.getItem('contactos')) || [];
+
+    selectContacto.innerHTML = '<option value="">Seleccione un contacto</option>';
+
+    contactos.forEach(contacto => {
+        const option = document.createElement('option');
+        option.value = contacto.cbu;
+        option.textContent = `${contacto.nombre}`;
+        selectContacto.appendChild(option);
+    });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    cargarSelectContactos();
+});
 
 // realizar el envio de dinero en sendmoney.html
 
@@ -203,10 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('saldo', nuevoSaldo)
                 guardarOperacion(nombre, 'envio de dinero', montoEnviarDinero)
                 cargarTabla();
-                alert('monto enviado, verifique en su menu')
+                alert('Monto enviado, verifique en su menú')
             }
             else {
-                alert('monto invalido')
+                alert('Monto inválido, intente nuevamente')
             }
             const modalEl = document.getElementById('modalEnviarDinero');
             const modal = bootstrap.Modal.getInstance(modalEl);
