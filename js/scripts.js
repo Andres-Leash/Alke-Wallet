@@ -13,7 +13,7 @@ if (form) {
 
         if (usuarioValido) {
             alert('Bienvenido, redirigiendo a su menú');
-            window.location.replace('menu.html');
+            window.location.replace('html/menu.html');
         }
         else {
             alert('Credenciales incorrectas, por favor, intente nuevamente')
