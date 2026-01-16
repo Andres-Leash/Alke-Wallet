@@ -94,7 +94,7 @@ if (buttonTransactions) {
 
 //Actualizacion de saldo menu con la variable saldo de localStorage o 0
 
-const saldoMenu = document.getElementById('saldo')
+const saldoMenu = document.querySelector('.saldo-menu')
 
 if (saldoMenu) {
     const saldo = Number(localStorage.getItem('saldo')) || 0
