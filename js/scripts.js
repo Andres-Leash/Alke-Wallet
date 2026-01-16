@@ -31,31 +31,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const registroUsuario = document.getElementById('registroUsuario');
 
-    if(registroUsuario) {registroUsuario.addEventListener('submit', e => {
-        e.preventDefault();
+    if (registroUsuario) {
+        registroUsuario.addEventListener('submit', e => {
+            e.preventDefault();
 
-        const usuario = document.getElementById('emailRegistro').value.trim().toLowerCase();
-        const password = document.getElementById('clave').value;
-        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-        const existe = usuarios.some(u => u.usuario === usuario);
-        
-        //Validador de datos duplicados
-        if (existe) {   
-            alert("El usuario ya está registrado");
-            return;
-        }
-        //Agregar datos de registro a localStorage como JSON
-        usuarios.push({ usuario, password });
-        localStorage.setItem('usuarios', JSON.stringify(usuarios))
-        alert("Usuario registrado con éxito");
-        //limpia el formulario
-        document.getElementById('emailRegistro').value = '';
-        document.getElementById('clave').value = '';
-        //oculta el modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('modalRegistro'));
-        modal.hide();
-    })
-}}
+            const usuario = document.getElementById('emailRegistro').value.trim().toLowerCase();
+            const password = document.getElementById('clave').value;
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const existe = usuarios.some(u => u.usuario === usuario);
+
+            //Validador de datos duplicados
+            if (existe) {
+                alert("El usuario ya está registrado");
+                return;
+            }
+            //Agregar datos de registro a localStorage como JSON
+            usuarios.push({ usuario, password });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios))
+            alert("Usuario registrado con éxito");
+            //limpia el formulario
+            document.getElementById('emailRegistro').value = '';
+            document.getElementById('clave').value = '';
+            //oculta el modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalRegistro'));
+            modal.hide();
+        })
+    }
+}
 )
 
 
@@ -63,9 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // asignacion de constantes con manejo de DOM
 
-const buttonDeposit = document.getElementById('deposit')
-const buttonSendmoney = document.getElementById('sendmoney')
-const buttonTransactions = document.getElementById('transactions')
+const buttonDeposit = document.getElementById('btnDeposit')
+const buttonSendmoney = document.getElementById('btnSendmoney')
+const buttonTransactions = document.getElementById('btnTransactions')
 
 //Programacion de botones depositar, enviar dinero y transacciones
 
@@ -116,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('saldo', nuevoSaldo)
                 guardarOperacion('Mi deposito', 'deposito', amount)
                 cargarTabla();
+                formDeposito.reset()
                 alert(`Se ha depositado $${amount} a su saldo actual, su nuevo saldo es $${nuevoSaldo}, verifique en su menú`)
             }
             else {
@@ -141,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formNuevoContacto) {
         formNuevoContacto.addEventListener('submit', e => {
             e.preventDefault()
-            
+
             //Definicion de variables con lo que se agrego en formulario nuevoContacto
             const nombre = document.getElementById('nombre').value.trim()
             const cbu = document.getElementById('cbu').value.trim().toUpperCase()
@@ -150,16 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const contactos = JSON.parse(localStorage.getItem('contactos')) || [];
             const cbuExiste = contactos.some(c => c.cbu === cbu);
             const bancoExiste = contactos.some(c => c.banco === banco);
-            
+
 
             //Verificar que no sea dato duplicado
             if (cbuExiste && bancoExiste) {
-                alert ('Contacto existente, por favor ingrese un nuevo contacto válido')
+                alert('Contacto existente, por favor ingrese un nuevo contacto válido')
                 return
             }
 
             //Agregar contacto a localStorage 'Contacto'
-                        contactos.push({ nombre, cbu, alias, banco })
+            contactos.push({ nombre, cbu, alias, banco })
             localStorage.setItem('contactos', JSON.stringify(contactos));
 
             //Finalizacion
@@ -170,22 +173,22 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.hide();
             cargarContactos();
             cargarSelectContactos();
-            
+
         })
     }
 })
 
 //Funcion para agregar a la tabla contactos lo que esta almacenado en localStorage
 
-function cargarContactos () {
+function cargarContactos() {
     const contactos = JSON.parse(localStorage.getItem('contactos')) || []
     const tbody = document.getElementById('contactos')
     tbody.innerHTML = ''
-    
+
     contactos.forEach(contacto => {
         const tr = document.createElement('tr')
         tr.innerHTML =
-        `
+            `
             <td>${contacto.nombre}</td>
             <td>${contacto.cbu}</td>
             <td>${contacto.alias}</td>
@@ -239,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('saldo', nuevoSaldo)
                 guardarOperacion(nombre, 'envio de dinero', montoEnviarDinero)
                 cargarTabla();
+                formEnviarDinero.reset()
                 alert('Monto enviado, verifique en su menú')
             }
             else {
